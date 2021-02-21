@@ -4,7 +4,7 @@ let form = document.querySelector("#book-form");
 
 
 class Book {
-    constructor(title, author, isbn){
+    constructor(title, author, isbn) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -13,16 +13,16 @@ class Book {
 
 
 class UI {
-    constructor(){
+    constructor() {
 
     }
 
-    addBookList(book){
+    addBookList(book) {
         let list = document.getElementById('book-list');
         let row = document.createElement('tr');
 
-        row.innerHTML = 
-        `
+        row.innerHTML =
+            `
         <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.isbn}</td>
@@ -32,27 +32,47 @@ class UI {
         list.appendChild(row);
         //console.log(row);
     }
+    showAlert(text, className) {
+        let div = document.createElement('div');
+        div.className = `alert ${className}`;
+        div.appendChild(document.createTextNode(text));
 
-    clearfields(){
-        let title = document.querySelector("#title").value='';
-        let author = document.querySelector("#author").value='';
-        let isbn = document.querySelector("#isbn").value='';
+        let container = document.querySelector('.container');
+        let form = document.querySelector('#book-form');
+
+        container.insertBefore(div, form);
+
+        setTimeout(function () {
+            document.querySelector('.error').remove();
+        }, 3000);
     }
-}
-form.addEventListener('submit', newBook);
 
-function newBook(e){
-    // console.log("Hello");
-    let title = document.querySelector("#title").value;
-    let author = document.querySelector("#author").value;
-    let isbn = document.querySelector("#isbn").value;
+        clearfields() {
+            let title = document.querySelector("#title").value = '';
+            let author = document.querySelector("#author").value = '';
+            let isbn = document.querySelector("#isbn").value = '';
+        }
+    }
+    form.addEventListener('submit', newBook);
 
-    let book = new Book(title, author, isbn);
-    // console.log(book);
-    
-    let ui = new UI();
-    ui.addBookList(book);
-    ui.clearfields();
-    
-    e.preventDefault();
-}
+    function newBook(e) {
+        // console.log("Hello");
+        let title = document.querySelector("#title").value;
+        let author = document.querySelector("#author").value;
+        let isbn = document.querySelector("#isbn").value;
+
+        let ui = new UI();
+
+        if (title === '' || author === "" || isbn === "") {
+            // alert("dfdf");
+            ui.showAlert("Something is wrong !!!", "error");
+        } else {
+
+            let book = new Book(title, author, isbn);
+            // console.log(book);
+
+            ui.addBookList(book);
+            ui.clearfields();
+        }
+        e.preventDefault();
+    }
