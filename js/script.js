@@ -1,5 +1,6 @@
 let form = document.querySelector("#book-form");
 // let table = document.getElementById("book-list");
+let bookList = document.querySelector('#book-list');
 
 
 
@@ -43,8 +44,14 @@ class UI {
         container.insertBefore(div, form);
 
         setTimeout(function () {
-            document.querySelector('.error').remove();
+            document.querySelector('.alert').remove();
         }, 3000);
+    }
+    deleteFromBook(target){
+        if (target.hasAttribute('href')){
+            target.parentElement.parentElement.remove();
+        }
+        // console.log(target);
     }
 
         clearfields() {
@@ -53,7 +60,9 @@ class UI {
             let isbn = document.querySelector("#isbn").value = '';
         }
     }
+
     form.addEventListener('submit', newBook);
+    bookList.addEventListener('click', removeBook);
 
     function newBook(e) {
         // console.log("Hello");
@@ -73,6 +82,17 @@ class UI {
 
             ui.addBookList(book);
             ui.clearfields();
+            ui.showAlert("Successfully added!!!", "success");
+
         }
+        e.preventDefault();
+    }
+
+    function removeBook(e){
+        
+        let ui = new UI();
+
+        ui.deleteFromBook(e.target);
+        ui.showAlert('Book Removed!', 'success');
         e.preventDefault();
     }
