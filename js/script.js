@@ -3,7 +3,6 @@ let form = document.querySelector("#book-form");
 let bookList = document.querySelector('#book-list');
 
 
-
 class Book {
     constructor(title, author, isbn) {
         this.title = title;
@@ -12,6 +11,40 @@ class Book {
     }
 }
 
+form.addEventListener('submit', newBook);
+function newBook(e) {
+    // console.log("Hello");
+    let title = document.querySelector("#title").value;
+    let author = document.querySelector("#author").value;
+    let isbn = document.querySelector("#isbn").value;
+
+    let ui = new UI();
+
+    if (title === '' || author === "" || isbn === "") {
+        // alert("dfdf");
+        ui.showAlert("Something is wrong !!!", "error");
+    } else {
+
+        let book = new Book(title, author, isbn);
+        // console.log(book);
+
+        ui.addBookList(book);
+        ui.clearfields();
+        ui.showAlert("Successfully added!!!", "success");
+
+    }
+    e.preventDefault();
+}
+
+
+bookList.addEventListener('click', removeBook);
+function removeBook(e) {
+
+    let ui = new UI();
+
+    ui.deleteFromBook(e.target);
+    e.preventDefault();
+}
 
 class UI {
     constructor() {
@@ -65,37 +98,3 @@ class UI {
     }
 }
 
-form.addEventListener('submit', newBook);
-bookList.addEventListener('click', removeBook);
-
-function newBook(e) {
-    // console.log("Hello");
-    let title = document.querySelector("#title").value;
-    let author = document.querySelector("#author").value;
-    let isbn = document.querySelector("#isbn").value;
-
-    let ui = new UI();
-
-    if (title === '' || author === "" || isbn === "") {
-        // alert("dfdf");
-        ui.showAlert("Something is wrong !!!", "error");
-    } else {
-
-        let book = new Book(title, author, isbn);
-        // console.log(book);
-
-        ui.addBookList(book);
-        ui.clearfields();
-        ui.showAlert("Successfully added!!!", "success");
-
-    }
-    e.preventDefault();
-}
-
-function removeBook(e) {
-
-    let ui = new UI();
-
-    ui.deleteFromBook(e.target);
-    e.preventDefault();
-}
